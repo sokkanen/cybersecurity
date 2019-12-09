@@ -29,5 +29,16 @@
             </tr>
             </tbody>
         </table>
+        <h5>You can leave a message to other attendees:</h5>
+        <form action="#" th:action="@{/message}" method="POST">
+            <p><label for="message">Message:</label><input type="utext" name="message" id="message"/></p>
+            <p><input type="submit" value="Send!" /></p>
+        </form>
+        <div th:if="${messages != null}">
+            <h5>Messages to you:</h5>
+            <ul>
+                <li th:each="item : ${messages}" th:utext="${item}"></li>
+            </ul>
+        </div>
     </body>
 </html>

@@ -24,10 +24,18 @@ with `Query`'s `setParameter` - method.
 
 
 ####FLAW 2: Cross-Site Scripting (XSS)
-<description of flaw 2>
-<how to fix it>
 
-...
+When registering to the event, the attendee has an opportunity to send messages to other future attendees. 
+Even if the SQL-side of the messages is safe from injection-attacks, the Thymeleaf template has a nasty 
+flaw in defining the attribute types. Developer has used Thymeleaf's unescaped text `utext` instead of 
+regular `text`, which allows Javascript to be run inside the element. This makes the template vulnerable to
+XSS-attacks.
+
+#####HOW TO FIX:
+
+The "done" template should be updated with `text` attribute-definition. This prevents the Javascript's
+`<SCRIPT>` to be run inside the template.
+
 
 ####FLAW 3: SENSITIVE DATA EXPOSURE
 <description of flaw 2>
