@@ -2,9 +2,8 @@ package sec.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import sec.project.domain.Signup;
 import sec.project.repository.SignupRepository;
 
@@ -25,9 +24,15 @@ public class SignupController {
     }
 
     @RequestMapping(value = "/form", method = RequestMethod.POST)
-    public String submitForm(@RequestParam String name, @RequestParam String address) {
+    public String submitForm(Model model, @RequestParam String name, @RequestParam String address) {
         signupRepository.save(new Signup(name, address));
+
         return "done";
     }
 
+    @RequestMapping(value = "/check", method = RequestMethod.GET)
+    public String requestInfo(Model model, @RequestParam String name) {
+        model.addAttribute("signups", signupRepository.findSignup(name));
+        return "done";
+    }
 }
