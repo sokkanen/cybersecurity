@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Administration</title>
+</head>
+<body>
+
+<h1>Admin information</h1>
+
+<h5>Registered attendees:</h5>
+<table>
+    <thead>
+    <tr>
+        <th> Name </th>
+        <th> Address </th>
+    </tr>
+    </thead>
+    <tbody>
+    <span th:text="${signups != null} ? '' : 'No registrations available'">No info</span>
+    <tr th:each="signup : ${signups}">
+        <td><span th:text="${signup.name}"> Name </span></td>
+        <td><span th:text="${signup.address}"> Address </span></td>
+    </tr>
+    </tbody>
+</table>
+<h5>User messages:</h5>
+<div th:if="${messages != null}">
+    <ul>
+        <li th:each="item : ${messages}" th:utext="${item}"></li>
+    </ul>
+</div>
+</body>
+</html>

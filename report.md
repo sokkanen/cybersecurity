@@ -29,7 +29,9 @@ When registering to the event, the attendee has an opportunity to send messages 
 Even if the SQL-side of the messages is safe from injection-attacks, the Thymeleaf template has a nasty 
 flaw in defining the attribute types. Developer has used Thymeleaf's unescaped text `utext` instead of 
 regular `text`, which allows Javascript to be run inside the element. This makes the template vulnerable to
-XSS-attacks.
+XSS-attacks. For example: When submitting a message: `<SCRIPT>window.alert("PWND!"")</SCRIPT>`, the next user
+loading the page will have a "PWND!" window pop-up displayed. The Script could be used to something much 
+more serious, such as sending user and session information to the attacker. 
 
 #####HOW TO FIX:
 
@@ -38,11 +40,22 @@ The "done" template should be updated with `text` attribute-definition. This pre
 
 
 ####FLAW 3: SENSITIVE DATA EXPOSURE
-<description of flaw 2>
-<how to fix it>
+
+The application has multiple sensitive data exposures. 
 
 ...
 
-####FLAW 5: VULNERABLE INFORMATION... PASSWORDS ARE SAVED....
-<description of flaw 5>
-<how to fix it>
+####FLAW 4: BROKEN AUTHENTICATION
+
+As stated in the OWASP Top 10 of 2017, one criteria for broken authentication is 
+"Permits default, weak, or well-known passwords, such as "Password1" or "admin/admin“". This program
+unfortunately has very naive password protection in the /admin -view. Default username and password
+are hard-coded to the application. Not only this, but the username and password are quite easy to guess as
+they are `admin/password`.
+
+#####HOW TO FIX:
+
+Default, hard-coded usernames / passwords should never exist at all. All the username/password -combos should
+be individually defined. All passwords should be deleted from the application after initial creation and 
+later hash creations. Only password hashes should ever be stored into the database. All logins should compare
+stored password-hash with the hash of the user entered password, never actual plain text passwords.
