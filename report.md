@@ -39,13 +39,7 @@ The "done" template should be updated with `text` attribute-definition. This pre
 `<SCRIPT>` to be run inside the template.
 
 
-####FLAW 3: SENSITIVE DATA EXPOSURE
-
-The application has multiple sensitive data exposures. 
-
-...
-
-####FLAW 4: BROKEN AUTHENTICATION
+####FLAW 3: BROKEN AUTHENTICATION
 
 As stated in the OWASP Top 10 of 2017, one criteria for broken authentication is 
 "Permits default, weak, or well-known passwords, such as "Password1" or "admin/admin“". This program
@@ -59,3 +53,20 @@ Default, hard-coded usernames / passwords should never exist at all. All the use
 be individually defined. All passwords should be deleted from the application after initial creation and 
 later hash creations. Only password hashes should ever be stored into the database. All logins should compare
 stored password-hash with the hash of the user entered password, never actual plain text passwords.
+
+####FLAW 4: SENSITIVE DATA EXPOSURE
+
+The application has multiple endpoints where sensitive data exposed. This vulnerability is closely related
+to the SQL-injection vulnerability, as injection allows hacker to fetch signup-information from the application's
+database. Furthermore /admin -view provides the admin a possibility to change the admin password, which was
+`password` by default... Unfortunately there is only one common password for admins, and it is stored into the 
+database without any hashing. Therefore admin password can be fetched in plain text with a successful SQL-injection. 
+
+#####HOW TO FIX:
+
+There is no reason to return a list of results, when the purpose of a feature is to get information on single user.
+Sloppy and naive copy-paste code can work, but is can also make the application more vulnerable. The logic used in 
+the source code should be as strict as possible.
+
+Passwords should never be stored in plain text. All individual users should have individual passwords; There should
+be no master passwords in production.

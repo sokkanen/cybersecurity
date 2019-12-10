@@ -6,10 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import sec.project.repository.AdminPwdRepository;
 import sec.project.repository.MessageRepository;
 import sec.project.repository.SignupRepository;
-
-import java.util.List;
 
 @Controller
 public class AdminController {
@@ -20,6 +19,9 @@ public class AdminController {
     @Autowired
     SignupRepository signupRepository;
 
+    @Autowired
+    AdminPwdRepository adminPwdRepository;
+
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String adminLogin(){
         return "adminLogin";
@@ -27,13 +29,21 @@ public class AdminController {
 
     @RequestMapping(value = "/admin", method = RequestMethod.POST)
     public String adminView(Model model, @RequestParam String user, @RequestParam String password){
-        if (user.equals("admin") && password.equals("password")){
-            List<String> messages = messageRepository.findAll();
-            model.addAttribute("messages", messages);
+        if (user.equals("admin") && password.equals(adminPwdRepository.getAdminPassword())){
+            model.addAttribute("messages", messageRepository.findAll());
             model.addAttribute("signups", signupRepository.findAll());
             return "admin";
         }
         model.addAttribute("error", "failed login");
         return "adminLogin";
+    }
+
+    @RequestMapping(value = "/adminpwd", method = RequestMethod.POST)
+    public String adminView(Model model, @RequestParam String password){
+        adminPwdRepository.change(password);
+        model.addAttribute("pwd", "true");
+        model.addAttribute("messages", messageRepository.findAll());
+        model.addAttribute("signups", signupRepository.findAll());
+        return "admin";
     }
 }

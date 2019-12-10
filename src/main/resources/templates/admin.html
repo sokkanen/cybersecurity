@@ -7,6 +7,16 @@
 
 <h1>Admin information</h1>
 
+Change admin password:
+
+<form action="#" th:action="@{/adminpwd}" method="POST">
+    <p><label for="password">New password</label>: <input type="password" name="password" id="password"/></p>
+    <p><input type="submit" value="Change!" /></p>
+</form>
+<div th:if="${pwd != null}">
+    <h5 style="color: green">Password changed!</h5>
+</div>
+
 <h5>Registered attendees:</h5>
 <table>
     <thead>
