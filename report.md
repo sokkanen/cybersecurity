@@ -9,7 +9,10 @@ The developer has decided to use her own implementation of db-access instead of 
 She has also made it possible to check if the registration to the event was successful by allowing
 users to search the registration database with their name. Unfortunately the query parameters are 
 appended to the sql-scripts without any kind of validation. This makes the software vulnerable for SQL-injections.
-For example: When entering `' OR 1=1;--` to the search-form, the user gets to see all the registrations in the database. 
+
+For example: When entering `' OR 1=1;--` to the search-form, the user gets to see all the registrations in the database.
+If the hacked would like to insert fake signups, he could do so by entering 
+`' OR 1=1;INSERT INTO Signup(name, address) VALUES ('fake', 'hacked'));--` to the search.
 
 #####HOW TO FIX:
 
@@ -52,7 +55,8 @@ they are `admin/password`.
 Default, hard-coded usernames / passwords should never exist at all. All the username/password -combos should
 be individually defined. All passwords should be deleted from the application after initial creation and 
 later hash creations. Only password hashes should ever be stored into the database. All logins should compare
-stored password-hash with the hash of the user entered password, never actual plain text passwords.
+stored password-hash with the hash of the user entered password, never actual plain text passwords. Spring security's
+authentication should be enabled in the application.
 
 ####FLAW 4: SENSITIVE DATA EXPOSURE
 
