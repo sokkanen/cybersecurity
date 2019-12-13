@@ -2,13 +2,13 @@
 
 https://github.com/sokkanen/cybersecurity
 
-Program running in Heroku...
+Program running in Heroku: https://cybersecurityproject.herokuapp.com/
 
 ---
 #### FLAW 1: SQL INJECTION:
 
 The developer has decided to use her own implementation of db-access instead of JPARepository.
-She has also made it possible to check if the registration to the event was successful by allowing
+He/She has also made it possible to check if the registration to the event was successful by allowing
 users to search the registration database with their name. Unfortunately the query parameters are 
 appended to the sql-scripts without any kind of validation. This makes the software vulnerable for SQL-injections.
 
