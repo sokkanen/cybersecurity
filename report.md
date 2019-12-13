@@ -1,7 +1,9 @@
 CYBER SECURITY BASE - COURSE PROJECT REPORT
 
-##LINK: <link to the repository>
-<installation instructions if needed>
+https://github.com/sokkanen/cybersecurity
+
+Program running in Heroku...
+
 ---
 ####FLAW 1: SQL INJECTION:
 
