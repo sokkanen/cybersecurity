@@ -70,3 +70,22 @@ the source code should be as strict as possible.
 
 Passwords should never be stored in plain text. All individual users should have individual passwords; There should
 be no master passwords in production.
+
+####FLAW 5: INSUFFICIENT LOGGING AND MONITORING
+
+As stated in the OWASP Top-10: "Exploitation of insufficient logging and monitoring is the bedrock of nearly every 
+major incident.". Lack of adequate logging means that it could potentially take a long time before any kind of 
+data breach or attack would be noticed.
+
+Logging in the application is done very naively, as logged rows only contain general information without any parameters, such as
+"SQL-operation OK" or "SQL-operation failed". Logging for errors or critical operations (such as administrator 
+password change..) is never done properly. All logging is done on the "INFO"-level, so building an alert based on 
+current logging would be impossible.
+
+#####HOW TO FIX:
+
+Logging should be divided to different levels, such as "INFO", "SEVERE" and "WARN". At least, the 
+critical operations should contain parameterized information about the incident. 
+For example: `catch(Exception e) --> logger.warning("SQL operation for change admin password failed with message {}, 
+e.getMessage())`. Automatic monitoring with automated e-mail alerts on severe- and warning-level of logs should
+be added to the application's running environment.

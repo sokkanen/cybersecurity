@@ -10,8 +10,13 @@ import sec.project.repository.AdminPwdRepository;
 import sec.project.repository.MessageRepository;
 import sec.project.repository.SignupRepository;
 
+import java.lang.invoke.MethodHandles;
+import java.util.logging.Logger;
+
 @Controller
 public class AdminController {
+
+    private static final Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Autowired
     MessageRepository messageRepository;
@@ -32,6 +37,7 @@ public class AdminController {
         if (user.equals("admin") && password.equals(adminPwdRepository.getAdminPassword())){
             model.addAttribute("messages", messageRepository.findAll());
             model.addAttribute("signups", signupRepository.findAll());
+            logger.info("Admin signin");
             return "admin";
         }
         model.addAttribute("error", "failed login");

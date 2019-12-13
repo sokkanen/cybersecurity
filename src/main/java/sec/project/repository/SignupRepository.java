@@ -3,12 +3,16 @@ package sec.project.repository;
 import org.springframework.stereotype.Repository;
 import sec.project.domain.Signup;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Repository
 public class SignupRepository {
+
+    private static final Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     private Connection connection;
 
@@ -18,7 +22,9 @@ public class SignupRepository {
             String query = "CREATE TABLE SIGNUP (name varchar(255), address varchar(255))";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.executeUpdate();
+            logger.info("SQL operation OK");
         } catch (SQLException e){
+            logger.info("SQL operation failed");
             System.out.println(e.getMessage());
         }
     }
@@ -30,7 +36,9 @@ public class SignupRepository {
             stmt.setString(1, signup.getName());
             stmt.setString(2, signup.getAddress());
             stmt.executeUpdate();
+            logger.info("SQL operation OK");
         } catch (SQLException e){
+            logger.info("SQL operation failed");
             System.out.println(e.getMessage());
         }
     }
@@ -44,8 +52,10 @@ public class SignupRepository {
             while (rs.next()){
                 signups.add(new Signup(rs.getString("name"), rs.getString("address")));
             }
+            logger.info("SQL operation OK");
             return signups;
         } catch (SQLException e){
+            logger.info("SQL operation failed");
             System.out.println(e.getMessage());
         }
         return null;
@@ -60,8 +70,10 @@ public class SignupRepository {
             while (rs.next()){
                 signups.add(new Signup(rs.getString("name"), rs.getString("address")));
             }
+            logger.info("SQL operation OK");
             return signups;
         } catch (SQLException e){
+            logger.info("SQL operation failed");
             System.out.println(e.getMessage());
         }
         return null;

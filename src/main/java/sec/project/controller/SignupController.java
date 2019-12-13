@@ -8,10 +8,14 @@ import sec.project.domain.Signup;
 import sec.project.repository.MessageRepository;
 import sec.project.repository.SignupRepository;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 public class SignupController {
+
+    private static final Logger logger = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
     @Autowired
     private SignupRepository signupRepository;
@@ -32,6 +36,7 @@ public class SignupController {
     @RequestMapping(value = "/form", method = RequestMethod.POST)
     public String submitForm(Model model, @RequestParam String name, @RequestParam String address) {
         signupRepository.save(new Signup(name, address));
+        logger.info("New Signup added");
         List<String> messages = messageRepository.findAll();
         model.addAttribute("messages", messages);
         return "done";
